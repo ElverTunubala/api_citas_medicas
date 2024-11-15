@@ -5,6 +5,8 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { DoctorsModule } from './doctors/doctors.module';
 import { ShedulesModule } from './shedules/shedules.module';
+import { PatientsModule } from './patients/patients.module';
+import { AppointmentsModule } from './appointments/appointments.module';
 
 @Module({
   imports: [
@@ -26,6 +28,8 @@ import { ShedulesModule } from './shedules/shedules.module';
     UsersModule,
     DoctorsModule,
     ShedulesModule,
+    PatientsModule,
+    AppointmentsModule,
   ],
   controllers: [],
   providers: [],
