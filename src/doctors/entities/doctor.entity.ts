@@ -8,7 +8,7 @@ import {
   } from 'typeorm';
   import { UserEntity } from '../../users/entities/user.entity';
   import { Appointment } from './appointment.entity';
-  import { Schedule } from './schedule.entity';
+  import { Schedule } from '../../shedules/entities/shedule.entity';
 import { Gender } from 'src/roles/roles.gender';
   
 @Entity('doctors')
