@@ -5,6 +5,7 @@ import { Schedule } from '../shedules/entities/shedule.entity';
 import { CreateScheduleDto } from './dto/create-shedule.dto';
 import { DoctorService } from '../doctors/doctors.service';
 import { DayWeek } from 'src/roles/roles.day';
+import { ScheduleGateway } from './schedule.gateway';
 
 @Injectable()
 export class ScheduleService {
@@ -12,6 +13,7 @@ export class ScheduleService {
     @InjectRepository(Schedule)
     private readonly scheduleRepository: Repository<Schedule>,
     private readonly doctorService: DoctorService,
+    private readonly scheduleGateway: ScheduleGateway,
   ) {}
 
   async create(createScheduleDto: CreateScheduleDto): Promise<Schedule> {
@@ -50,7 +52,13 @@ export class ScheduleService {
         doctor.status = false; 
         await this.doctorService.create(doctor);  
       }
-      return await this.scheduleRepository.save(schedule);
+      // return await this.scheduleRepository.save(schedule);
+      const savedSchedule = await this.scheduleRepository.save(schedule);
+      
+      // Emitir el evento al WebSocket cuando se crea un nuevo horario
+      this.scheduleGateway.server.emit('new_schedule', { doctorId, scheduleId: savedSchedule.id });
+
+      return savedSchedule;
       
     } catch (error) {
       if (error instanceof ConflictException) {
