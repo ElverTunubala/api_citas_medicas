@@ -17,10 +17,10 @@ export class Schedule {
     @Column({type: 'enum',enum: DayWeek})
     dayOfWeek: DayWeek;
   
-    @Column({ type: 'timestamp' })
+    @Column({ type: 'timestamptz' })
     startTime: Date;
   
-    @Column({ type: 'timestamp' })
+    @Column({ type: 'timestamptz' })
     endTime: Date;
   
     @ManyToOne(() => Doctor, (doctor) => doctor.schedules)

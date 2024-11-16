@@ -21,7 +21,7 @@ export class Doctor {
     specialization: string;
   
     @Column()
-    availability: string;
+    availability: number;
   
     @Column({type: 'enum',enum: Gender})
     gender: Gender;
@@ -31,10 +31,6 @@ export class Doctor {
 
     @Column({ type: 'boolean', default: true })
     status: boolean;
-  
-    // @OneToOne(() => UserEntity, (user) => user.doctor)
-    // @JoinColumn()
-    // user: UserEntity;
   
     @OneToMany(() => Appointment, (appointment) => appointment.doctor)
     appointments: Appointment[];

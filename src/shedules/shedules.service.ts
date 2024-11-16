@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Schedule } from '../shedules/entities/shedule.entity';
@@ -16,21 +16,48 @@ export class ScheduleService {
 
   async create(createScheduleDto: CreateScheduleDto): Promise<Schedule> {
     try {
-      const { doctorId, ...scheduleData } = createScheduleDto;
+      const { doctorId, dayOfWeek, ...scheduleData } = createScheduleDto;
 
       const doctor = await this.doctorService.findById(doctorId);
-
-      if (!doctor.status) {
+      if (!doctor.status) { 
         throw new Error('Doctor is not available for scheduling.');
       }
 
+      const existingSchedules = await this.scheduleRepository.count({
+        where: { doctor: { id: doctorId } },
+      });
+      if (existingSchedules >= doctor.availability) {
+          throw new ConflictException(`Doctor can only schedule ${doctor.availability} days.`);
+      }
+
+      const existingSchedule = await this.scheduleRepository.findOne({
+        where: {
+          doctor: { id: doctorId },
+          dayOfWeek: dayOfWeek, 
+        },
+      });
+
+      if (existingSchedule) {
+        throw new ConflictException(`Doctor already has a schedule on ${dayOfWeek}.`);
+      }
       const schedule = this.scheduleRepository.create({
         ...scheduleData,
         doctor,
+        dayOfWeek,
       });
+
+      if (existingSchedules + 1 >= doctor.availability) {
+        doctor.status = false; 
+        await this.doctorService.create(doctor);  
+      }
       return await this.scheduleRepository.save(schedule);
+      
     } catch (error) {
-      throw new Error('Error creating schedule: ' + error.message);
+      if (error instanceof ConflictException) {
+        throw error;
+      } else {
+        throw new Error('Error creating schedule: ' + error.message);
+      }
     }
   }
 

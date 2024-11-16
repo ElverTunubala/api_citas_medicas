@@ -1,4 +1,4 @@
-import { IsString, IsUUID, IsEnum, IsNotEmpty, IsBoolean } from 'class-validator';
+import { IsString, IsUUID, IsEnum, IsNotEmpty, IsBoolean, IsNumber } from 'class-validator';
 import { Gender } from 'src/roles/roles.gender';
 
 export class CreateDoctorDto {
@@ -7,9 +7,9 @@ export class CreateDoctorDto {
 
   @IsString()
   specialization: string;
-
-  @IsString()
-  availability: string;
+  
+  @IsNumber()
+  availability: number;
 
   @IsNotEmpty()
   @IsEnum(Gender)
