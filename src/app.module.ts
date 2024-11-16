@@ -7,6 +7,11 @@ import { DoctorsModule } from './doctors/doctors.module';
 import { ShedulesModule } from './shedules/shedules.module';
 import { PatientsModule } from './patients/patients.module';
 import { AppointmentsModule } from './appointments/appointments.module';
+import { UserEntity } from './users/entities/user.entity';
+import { Appointment } from './appointments/entities/appointment.entity';
+import { Doctor } from './doctors/entities/doctor.entity';
+import { Patient } from './patients/entities/patient.entity';
+import { Schedule } from './shedules/entities/shedule.entity';
 
 @Module({
   imports: [
@@ -20,9 +25,14 @@ import { AppointmentsModule } from './appointments/appointments.module';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      entities: [
+        UserEntity,
+        Appointment,
+        Doctor,
+        Patient,
+        Schedule],
       synchronize: true,
-      ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false
+      ssl:process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false,
     }),
     AuthModule,
     UsersModule,

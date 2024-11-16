@@ -19,13 +19,13 @@ export class UsersController {
     return this.userService.create(createUserDto);
   }
 
-  @Roles('admin', 'user')  // Permite a admin y user
+  @Roles('admin')  // Permite a admin y user
   @Get()
   findAll() {
     const users = this.userService.findAll();
     return plainToInstance(UserEntity, users);//se uso serializacion para no devolver la contraseña
   }
-  @Roles('admin', 'user')
+  @Roles('admin')
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.userService.findOne(id);

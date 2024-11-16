@@ -18,12 +18,7 @@ export class CreateDoctorDto {
   @IsString()
   phone: string;
 
-  @IsUUID()
-  userId: string;
-
-  @IsNotEmpty()
   @IsBoolean()
   status: boolean;
 }
-
 

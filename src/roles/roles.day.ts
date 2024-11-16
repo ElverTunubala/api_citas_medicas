@@ -1,6 +1,6 @@
 export enum DayWeek {
     LUNES = 'Lunes',
-    MARTES= 'Mates',
+    MARTES= 'Martes',
     MIERCOLES='Miercoles',
     JUEVES='Jueves',
     VIERNES='Viernes',

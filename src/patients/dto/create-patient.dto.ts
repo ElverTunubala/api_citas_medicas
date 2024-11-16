@@ -18,6 +18,4 @@ export class CreatePatientDto {
   @IsEnum(Gender)
   gender: Gender;
 
-  @IsUUID()
-  userId: string;
 }
