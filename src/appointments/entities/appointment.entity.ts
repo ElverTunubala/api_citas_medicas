@@ -12,7 +12,7 @@ import {
     @PrimaryGeneratedColumn('uuid')
     id: string;
   
-    @Column({ type: 'timestamp' })
+    @Column()
     createDate: Date;
   
     @Column()
@@ -27,10 +27,10 @@ import {
     @Column()
     address: string;
   
-    @Column({ type: 'timestamp' })
+    @Column({ type: 'timestamptz' })
     startTime: Date;
   
-    @Column({ type: 'timestamp' })
+    @Column({ type: 'timestamptz' })
     endTime: Date;
   
     @ManyToOne(() => Doctor, (doctor) => doctor.appointments)

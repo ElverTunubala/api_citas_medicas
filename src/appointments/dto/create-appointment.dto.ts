@@ -1,9 +1,7 @@
 import { IsString, IsDate, IsUUID, IsDateString } from 'class-validator';
 
 export class CreateAppointmentDto {
-  @IsDate()
-  createDate: Date;
-
+  
   @IsString()
   reason: string;
 

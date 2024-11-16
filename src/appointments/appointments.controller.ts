@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { AppointmentService } from '../appointments/appointments.service';
 import { CreateAppointmentDto } from './dto/create-appointment.dto';
+import { Appointment } from './entities/appointment.entity';
 
 @Controller('appointments')
 export class AppointmentController {
@@ -45,5 +46,11 @@ export class AppointmentController {
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);
     }
+  }
+  @Patch(':id')
+  async update(@Param('id') id: string,
+  @Body() updateAppointmentDto: CreateAppointmentDto): Promise<Appointment> {
+    
+    return this.appointmentService.update(id, updateAppointmentDto);
   }
 }
