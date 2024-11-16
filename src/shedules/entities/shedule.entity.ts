@@ -4,10 +4,11 @@ import {
     Column,
     ManyToOne,
 } from 'typeorm';
-import { Doctor } from '../../doctors/entities/doctor.entity'
+
+import { Doctor } from '../../doctors/entities/doctor.entity';
 import { DayWeek } from 'src/roles/roles.day';
   
-Entity('schedules')
+@Entity()
 export class Schedule {
 
     @PrimaryGeneratedColumn('uuid')

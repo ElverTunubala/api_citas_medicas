@@ -1,34 +1,49 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { AppointmentsService } from './appointments.service';
+import {
+  Controller,
+  Post,
+  Get,
+  Patch,
+  Body,
+  Param,
+  Query,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
+import { AppointmentService } from '../appointments/appointments.service';
 import { CreateAppointmentDto } from './dto/create-appointment.dto';
-import { UpdateAppointmentDto } from './dto/update-appointment.dto';
 
 @Controller('appointments')
-export class AppointmentsController {
-  constructor(private readonly appointmentsService: AppointmentsService) {}
+export class AppointmentController {
+  constructor(private readonly appointmentService: AppointmentService) {}
 
   @Post()
-  create(@Body() createAppointmentDto: CreateAppointmentDto) {
-    return this.appointmentsService.create(createAppointmentDto);
+  async create(@Body() createAppointmentDto: CreateAppointmentDto) {
+    try {
+      return await this.appointmentService.create(createAppointmentDto);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
   }
 
   @Get()
-  findAll() {
-    return this.appointmentsService.findAll();
+  async findAll(
+    @Query('date') date?: string,
+    @Query('specialty') specialty?: string,
+    @Query('reason') reason?: string,
+  ) {
+    try {
+      return await this.appointmentService.findAll({ date, specialty, reason });
+    } catch (error) {
+      throw new HttpException('Error al obtener citas', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.appointmentsService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAppointmentDto: UpdateAppointmentDto) {
-    return this.appointmentsService.update(+id, updateAppointmentDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.appointmentsService.remove(+id);
+  @Patch(':id/notes')
+  async updateNotes(@Param('id') id: string, @Body('notes') notes: string) {
+    try {
+      return await this.appointmentService.updateNotes(id, notes);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+    }
   }
 }

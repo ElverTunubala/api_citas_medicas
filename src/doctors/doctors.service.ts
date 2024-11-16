@@ -42,7 +42,7 @@ export class DoctorService {
     try {
       const doctor = await this.doctorRepository.findOne({
         where: { id },
-        relations: ['user', 'appointments', 'schedules'],
+        relations: ['appointments', 'schedules'],
       });
       if (!doctor) {
         throw new Error('Doctor not found');

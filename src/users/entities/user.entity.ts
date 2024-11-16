@@ -2,7 +2,7 @@ import { Exclude } from 'class-transformer';
 import { Role } from '../../roles/roles.enum';
 import {Entity,Column,PrimaryGeneratedColumn} from 'typeorm';
 
-@Entity({ name: 'users' })
+@Entity()
 export class UserEntity {
 
     @PrimaryGeneratedColumn('uuid')

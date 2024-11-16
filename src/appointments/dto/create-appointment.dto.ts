@@ -1,4 +1,4 @@
-import { IsString, IsDate, IsUUID } from 'class-validator';
+import { IsString, IsDate, IsUUID, IsDateString } from 'class-validator';
 
 export class CreateAppointmentDto {
   @IsDate()
@@ -17,9 +17,11 @@ export class CreateAppointmentDto {
   address: string;
 
   @IsDate()
+  @IsDateString()  
   startTime: Date;
 
   @IsDate()
+  @IsDateString()  
   endTime: Date;
 
   @IsUUID()

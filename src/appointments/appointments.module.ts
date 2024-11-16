@@ -1,9 +1,13 @@
-import { Module } from '@nestjs/common';
-import { AppointmentsService } from './appointments.service';
-import { AppointmentsController } from './appointments.controller';
+import { Global, Module } from '@nestjs/common';
+import { AppointmentService} from './appointments.service';
+import { AppointmentController } from './appointments.controller';
+import { Appointment } from './entities/appointment.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
+@Global()
 @Module({
-  controllers: [AppointmentsController],
-  providers: [AppointmentsService],
+  imports: [TypeOrmModule.forFeature([Appointment])],
+  controllers: [AppointmentController],
+  providers: [AppointmentService],
 })
 export class AppointmentsModule {}

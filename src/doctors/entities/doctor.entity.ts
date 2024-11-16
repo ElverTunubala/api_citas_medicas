@@ -2,17 +2,15 @@ import {
     Entity,
     PrimaryGeneratedColumn,
     Column,
-    OneToOne,
-    JoinColumn,
     OneToMany,
   } from 'typeorm';
-  import { UserEntity } from '../../users/entities/user.entity';
-  import { Appointment } from './appointment.entity';
-  import { Schedule } from '../../shedules/entities/shedule.entity';
+  
+import { Appointment } from '../../appointments/entities/appointment.entity';
+import { Schedule } from '../../shedules/entities/shedule.entity';
 import { Gender } from 'src/roles/roles.gender';
   
-@Entity('doctors')
-  export class Doctor {
+@Entity()
+export class Doctor {
     @PrimaryGeneratedColumn('uuid')
     id: string;
   
@@ -34,9 +32,9 @@ import { Gender } from 'src/roles/roles.gender';
     @Column({ type: 'boolean', default: true })
     status: boolean;
   
-    @OneToOne(() => UserEntity, (user) => user.doctor)
-    @JoinColumn()
-    user: UserEntity;
+    // @OneToOne(() => UserEntity, (user) => user.doctor)
+    // @JoinColumn()
+    // user: UserEntity;
   
     @OneToMany(() => Appointment, (appointment) => appointment.doctor)
     appointments: Appointment[];
