@@ -5,11 +5,12 @@ import { Schedule } from './entities/shedule.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DoctorService } from 'src/doctors/doctors.service';
 import { Doctor } from 'src/doctors/entities/doctor.entity';
+import { ScheduleGateway } from './schedule.gateway';
 
 @Global()
 @Module({
   imports: [TypeOrmModule.forFeature([Schedule,Doctor])],
   controllers: [ScheduleController],
-  providers: [ScheduleService,DoctorService],
+  providers: [ScheduleService,DoctorService,ScheduleGateway],
 })
 export class ShedulesModule {}
